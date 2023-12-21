@@ -7,6 +7,22 @@ public class ModeloDTO {
     public String cargo;
     public boolean ativo;
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setCargo(String cargo) {
+        this.cargo = cargo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
+
     public String getName() {
         return name;
     }

@@ -22,7 +22,7 @@ public class ServiceController {
     public Response getModelo() {
         List<ModeloDTO> modelos = Modelo.findAll(Sort.by("name"))
         .stream()
-        .map(entity -> ModeloMapper.INSTANCE.modeloToModeloDTO((Modelo) entity))
+        .map(ModeloMapper.INSTANCE::modeloToModeloDTOWithoutCargo)
         .collect(Collectors.toList());
         return Response.ok(modelos).build();
     }
