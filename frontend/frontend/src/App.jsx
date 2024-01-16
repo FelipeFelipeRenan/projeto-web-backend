@@ -1,12 +1,14 @@
-import './App.css'
-import Login from './pages/Login/Login'
+import "./App.css";
+import Login from "./pages/Login/Login";
 
 function App() {
   return (
     <>
-      <Login />
+      <nav className="container">
+        <Login />
+      </nav>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

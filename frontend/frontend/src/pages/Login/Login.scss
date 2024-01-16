@@ -1,41 +1,57 @@
 $primary-color: #4caf50;
 $primary-hover-color: #45a049;
 
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
 .App {
+  background-color: blueviolet;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100vh;
+}
 
-  form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 300px;
-    margin-top: 20px;
+.header-container {
+  background-color: aqua;
+  width: 100%;
+  padding: 10px;  // Adicione um preenchimento desejado
+  box-sizing: border-box;
+  position: fixed;  // Fixa o cabeçalho no topo
+  top: 0;          // Garante que o cabeçalho esteja no topo
+}
 
-    label {
-      margin-bottom: 10px;
-    }
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+  margin-top: 20px;
 
-    input {
-      padding: 8px;
-      margin-bottom: 15px;
-      width: 100%;
-    }
+  label {
+    margin-bottom: 10px;
+  }
 
-    button {
-      padding: 10px;
-      background-color: $primary-color;
-      color: white;
-      border: none;
-      cursor: pointer;
-      width: 100%;
+  input {
+    padding: 8px;
+    margin-bottom: 15px;
+    width: 100%;
+  }
 
-      &:hover {
-        background-color: $primary-hover-color;
-      }
+  button {
+    padding: 10px;
+    background-color: $primary-color;
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+
+    &:hover {
+      background-color: $primary-hover-color;
     }
   }
 }
