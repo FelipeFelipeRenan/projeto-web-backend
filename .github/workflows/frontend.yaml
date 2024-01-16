@@ -23,6 +23,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm ci --prefix projeto-web/frontend
-    - run: npm run build --prefix projeto-web/frontend --if-present 
-    - run: npm test --prefix projeto-web/frontend
+    - run: npm ci 
+    - run: npm run build --if-present 
+    - run: npm test
