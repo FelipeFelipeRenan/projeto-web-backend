@@ -21,7 +21,7 @@ jobs:
 
     - name: Build and Test
       run: |
-        mvn clean install -Pnative -Dnative-image.docker-build=true
+        mvn -f projeto-web/backend/pom.xml clean install -Pnative -Dnative-image.docker-build=true
 
     - name: Run Tests
       run: mvn test
