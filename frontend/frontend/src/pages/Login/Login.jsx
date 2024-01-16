@@ -22,7 +22,7 @@ const Login = () => {
       <Header />
       {loggedIn ? (
         <div>
-          <h2>Bem-vindo, {username}!</h2>
+          <h2>Bem-vindo teste do actions, {username}!</h2>
           <button onClick={() => setLoggedIn(false)}>Sair</button>
         </div>
       ) : (
