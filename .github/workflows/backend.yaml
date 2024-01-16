@@ -21,7 +21,7 @@ jobs:
 
     - name: Build and Test
       run: |
-        ./mvnw clean install -Pnative -Dnative-image.docker-build=true
+        mvn clean install -Pnative -Dnative-image.docker-build=true
 
     - name: Run Tests
-      run: ./mvnw test
+      run: mvn test
