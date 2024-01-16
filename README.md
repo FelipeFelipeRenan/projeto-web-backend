@@ -9,7 +9,7 @@ com os serviços feitos com o framework Quarkus e algumas partes, como o API Gat
 ## Frontend
 React como framework para construção de SPA, Styled Components para estilização (ou SASS)
 ### Seguir os passos para rodar a aplicação
-    cd frontend/frontend/
+    cd frontend/
     npm install
     npm run dev
 ## Backend 
@@ -19,6 +19,6 @@ Por ser um framework baseado em cloud, será possivel usar o Docker e Kubernetes
 feature de geração de aplicação nativa do Quarkus, teremos uma aplicação menor e mais leve que teriamos em um cenario 
 onde seria utilizado o Spring.
 ### Seguir os passos para rodar a aplicação
-    cd backend/projeto/
+    cd backend/
     mvn package clean
     mvn quarkus:dev
