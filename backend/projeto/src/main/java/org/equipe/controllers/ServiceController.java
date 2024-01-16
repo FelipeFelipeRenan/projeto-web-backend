@@ -5,6 +5,7 @@ import java.util.List;
 import org.equipe.models.Modelo;
 import org.equipe.services.ModeloDTO;
 import org.equipe.services.ModeloMapper;
+import org.equipe.utils.UtilsHelpers;
 
 import jakarta.ws.rs.core.Response.Status;
 import jakarta.ws.rs.GET;
@@ -33,10 +34,10 @@ public class ServiceController {
     @Path("/{name}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getModelo(@QueryParam("name") String name) {
-        if (name == null) {
-            return Response.status(Status.NOT_FOUND).build();
-        }
-        List<ModeloDTO> modelo = Modelo.findByName(name)
+
+        String decodedName = UtilsHelpers.decodeURLParameter(name);
+        System.out.println(decodedName);
+        List<ModeloDTO> modelo = Modelo.findByName(decodedName)
                 .stream()
                 .map(ModeloMapper.INSTANCE::modeloToModeloDTOWithoutCargo)
                 .collect(Collectors.toList());
