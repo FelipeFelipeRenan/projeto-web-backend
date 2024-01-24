@@ -1,24 +1,48 @@
-# projeto-web
-Projeto para a disciplina de Desenvolvimento Web
+# projeto
 
-Stack ainda será definida (Provavelmente será Java/Quarkus para o backend e React para o frontend)
+This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
-Será analizada a possibilidade da implementação da arquitetura de microservice para o projeto
-com os serviços feitos com o framework Quarkus e algumas partes, como o API Gateway feito em Spring
+If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
 
-## Frontend
-React como framework para construção de SPA, Styled Components para estilização (ou SASS)
-### Seguir os passos para rodar a aplicação
-    cd frontend/
-    npm install
-    npm run dev
-## Backend 
-Quarkus para construir o backend e possivelmente GraphQL para construção da API, caso não for possivel, será uma API REST
-com uma arquitetura baseada em microservices e caso náo seja possivel, será feito um monolito.
-Por ser um framework baseado em cloud, será possivel usar o Docker e Kubernetes para o deploy da aplicação e graças à 
-feature de geração de aplicação nativa do Quarkus, teremos uma aplicação menor e mais leve que teriamos em um cenario 
-onde seria utilizado o Spring.
-### Seguir os passos para rodar a aplicação
-    cd backend/
-    mvn package clean
-    mvn quarkus:dev
+## Running the application in dev mode
+
+You can run your application in dev mode that enables live coding using:
+```shell script
+./mvnw compile quarkus:dev
+```
+
+> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
+
+## Packaging and running the application
+
+The application can be packaged using:
+```shell script
+./mvnw package
+```
+It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
+Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+
+The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
+
+If you want to build an _über-jar_, execute the following command:
+```shell script
+./mvnw package -Dquarkus.package.type=uber-jar
+```
+
+The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
+
+## Creating a native executable
+
+You can create a native executable using: 
+```shell script
+./mvnw package -Dnative
+```
+
+Or, if you don't have GraalVM installed, you can run the native executable build in a container using: 
+```shell script
+./mvnw package -Dnative -Dquarkus.native.container-build=true
+```
+
+You can then execute your native executable with: `./target/projeto-1.0.0-SNAPSHOT-runner`
+
+If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.
