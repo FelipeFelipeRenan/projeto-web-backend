@@ -2,28 +2,37 @@ package org.equipe.models;
 
 import java.time.LocalDate;
 
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import java.util.List;
+
 
 @Entity
-public class Daily {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Daily extends PanacheEntity {
 
     private LocalDate date;
     private String description;
-    
-    public Long getId() {
-        return id;
-    }
+
+      @ManyToMany
+    @JoinTable(
+        name = "daily_participante", // Nome da tabela intermediária
+        joinColumns = @JoinColumn(name = "daily_id"), // Coluna que referencia Daily
+        inverseJoinColumns = @JoinColumn(name = "participante_id") // Coluna que referencia Participante
+    )
+    private List<Participante> participantes;
+
+
     public LocalDate getDate() {
         return date;
     }
     public String getDescription() {
         return description;
+    }
+    public List<Participante> getParticipantes() {
+        return participantes;
     }
     
     

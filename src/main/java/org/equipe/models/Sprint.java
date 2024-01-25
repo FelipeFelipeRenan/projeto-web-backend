@@ -4,23 +4,29 @@ import java.time.LocalDate;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import java.util.List;
+
 
 @Entity
 public class Sprint extends PanacheEntity{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
 
     private String name;
     private LocalDate startDate;
     private LocalDate endDate;
     private String goal;
-    public Long getId() {
-        return id;
-    }
+
+        @ManyToMany
+    @JoinTable(
+        name = "sprint_participante", // Nome da tabela intermediária
+        joinColumns = @JoinColumn(name = "sprint_id"), // Coluna que referencia Sprint
+        inverseJoinColumns = @JoinColumn(name = "participante_id") // Coluna que referencia Participante
+    )
+    private List<Participante> participantes;
+
     public String getName() {
         return name;
     }
@@ -33,7 +39,11 @@ public class Sprint extends PanacheEntity{
     public String getGoal() {
         return goal;
     }
+    public List<Participante> getParticipantes() {
+        return participantes;
+    }
 
+    
     
     // Outros campos e relacionamentos
 }

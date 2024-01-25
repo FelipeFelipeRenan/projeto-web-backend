@@ -1,48 +1,92 @@
 package org.equipe.controllers;
 
-import java.util.List;
+import org.equipe.models.*;
 
-import org.equipe.models.Modelo;
-import org.equipe.services.ModeloDTO;
-import org.equipe.services.ModeloMapper;
-import org.equipe.utils.UtilsHelpers;
-
-import jakarta.ws.rs.core.Response.Status;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import io.quarkus.panache.common.Sort;
-import java.util.stream.Collectors;
+
+import java.util.List;
 
 @Path("/api/v1")
 public class ServiceController {
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getModelos() {
-        List<ModeloDTO> modelos = Modelo.findAll(Sort.by("name"))
-                .stream()
-                .map(ModeloMapper.INSTANCE::modeloToModeloDTOWithoutCargo)
-                .collect(Collectors.toList());
-        return Response.ok(modelos).build();
-    }
+    // Operações relacionadas a Sprints
 
     @GET
-    @Path("/{name}")
+    @Path("/sprints")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getModelo(@QueryParam("name") String name) {
-
-        String decodedName = UtilsHelpers.decodeURLParameter(name);
-        System.out.println(decodedName);
-        List<ModeloDTO> modelo = Modelo.findByName(decodedName)
-                .stream()
-                .map(ModeloMapper.INSTANCE::modeloToModeloDTOWithoutCargo)
-                .collect(Collectors.toList());
-        System.out.println(2);
-        return Response.ok(modelo).build();
-
+    public Response getSprints() {
+        List<Sprint> sprints = Sprint.listAll();
+        return Response.ok(sprints).build();
     }
+
+    @POST
+    @Path("/sprints")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response criarSprint(Sprint sprint) {
+        sprint.persist();
+        return Response.status(Response.Status.CREATED).build();
+    }
+
+    // Operações relacionadas a Dailys
+
+    @GET
+    @Path("/dailys")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getDailys() {
+        List<Daily> dailys = Daily.listAll();
+        return Response.ok(dailys).build();
+    }
+
+    @POST
+    @Path("/dailys")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response criarDaily(Daily daily) {
+        daily.persist();
+        return Response.status(Response.Status.CREATED).build();
+    }
+
+    // Operações relacionadas a Tasks
+
+    @GET
+    @Path("/tasks")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getTasks() {
+        List<Task> tasks = Task.listAll();
+        return Response.ok(tasks).build();
+    }
+
+    @POST
+    @Path("/tasks")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response criarTask(Task task) {
+        task.persist();
+        return Response.status(Response.Status.CREATED).build();
+    }
+
+    // Operações relacionadas a Participantes
+
+    @GET
+    @Path("/participantes")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getParticipantes() {
+        List<Participante> participantes = Participante.listAll();
+        return Response.ok(participantes).build();
+    }
+
+    @POST
+    @Path("/participantes")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response criarParticipante(Participante participante) {
+        participante.persist();
+        return Response.status(Response.Status.CREATED).build();
+    }
+
+    // Adicione operações adicionais conforme necessário
+
 }
