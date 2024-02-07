@@ -2,6 +2,7 @@ package org.equipe.controllers;
 
 import org.equipe.models.*;
 
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -80,6 +81,7 @@ public class ServiceController {
 
     @POST
     @Path("/participantes")
+    @Transactional
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response criarParticipante(Participante participante) {
