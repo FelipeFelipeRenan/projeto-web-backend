@@ -1,15 +1,21 @@
 package org.equipe.models;
 
-import java.time.LocalDate;
-
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
+import java.time.LocalDate;
 
 @Entity
-public class Task extends PanacheEntity {
+public class Task extends PanacheEntityBase {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String title;
     private String description;
@@ -21,27 +27,53 @@ public class Task extends PanacheEntity {
     @JoinColumn(name = "daily_id")
     private Daily daily;
 
+    // getters e setters
+
     public String getTitle() {
         return title;
     }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getDescription() {
         return description;
     }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public LocalDate getDueDate() {
         return dueDate;
     }
+
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
+    }
+
     public boolean isCompleted() {
         return completed;
     }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
+
     public boolean isAvailable() {
         return available;
     }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
     public Daily getDaily() {
         return daily;
     }
 
-    
-
-    
-    // Outros campos e relacionamentos
+    public void setDaily(Daily daily) {
+        this.daily = daily;
+    }
 }
