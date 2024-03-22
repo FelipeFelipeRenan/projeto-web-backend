@@ -1,5 +1,6 @@
 package org.equipe.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,9 +16,10 @@ public class Daily extends PanacheEntityBase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     private LocalDate date;
     private String description;
+
+    // getters e setters
 
     public LocalDate getDate() {
         return date;

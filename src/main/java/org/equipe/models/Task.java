@@ -1,5 +1,6 @@
 package org.equipe.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,6 +24,7 @@ public class Task extends PanacheEntityBase {
     private boolean completed;
     private boolean available;
 
+    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "daily_id")
     private Daily daily;

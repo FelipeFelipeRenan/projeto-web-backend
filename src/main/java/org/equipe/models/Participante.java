@@ -1,14 +1,11 @@
 package org.equipe.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.util.List;
 
@@ -19,32 +16,45 @@ public class Participante extends PanacheEntityBase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     private String nome;
     private String email;
     private String cargo;
     private boolean ativo;
 
-    @ManyToMany(mappedBy = "participantes")
+    @JsonManagedReference
+    @ManyToMany(mappedBy = "participantes", fetch = FetchType.EAGER)
+    @Fetch(FetchMode.JOIN)
     private List<Squad> squads;
 
-    @ManyToMany
+    @JsonManagedReference
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-        name = "daily_participante",
-        joinColumns = @JoinColumn(name = "participante_id"),
-        inverseJoinColumns = @JoinColumn(name = "daily_id")
+            name = "daily_participante",
+            joinColumns = @JoinColumn(name = "participante_id"),
+            inverseJoinColumns = @JoinColumn(name = "daily_id")
     )
+    @Fetch(FetchMode.JOIN)
     private List<Daily> dailies;
 
-    @ManyToMany
+    @JsonManagedReference
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-        name = "participante_task",
-        joinColumns = @JoinColumn(name = "participante_id"),
-        inverseJoinColumns = @JoinColumn(name = "task_id")
+            name = "participante_task",
+            joinColumns = @JoinColumn(name = "participante_id"),
+            inverseJoinColumns = @JoinColumn(name = "task_id")
     )
+    @Fetch(FetchMode.JOIN)
     private List<Task> tasks;
 
     // getters e setters
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getNome() {
         return nome;

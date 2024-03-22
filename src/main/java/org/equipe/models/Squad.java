@@ -12,6 +12,8 @@ import jakarta.persistence.ManyToOne;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class Squad extends PanacheEntityBase {
 
@@ -22,6 +24,7 @@ public class Squad extends PanacheEntityBase {
     @ManyToOne
     private Sprint sprint;
 
+    @JsonBackReference
     @ManyToMany
     @JoinTable(
         name = "squad_participante",

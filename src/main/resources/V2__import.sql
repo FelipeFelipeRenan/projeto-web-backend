@@ -68,23 +68,34 @@ CREATE TABLE IF NOT EXISTS squad_participante (
 
 -- Inserção de dados fictícios (apenas se as tabelas estiverem criadas)
 INSERT INTO Participante (nome, email, cargo, ativo) VALUES
-    ('João Silva', 'joao.silva@email.com', 'Desenvolvedor', true),
-    ('Maria Oliveira', 'maria.oliveira@email.com', 'Analista de QA', true),
-    ('Carlos Pereira', 'carlos.pereira@email.com', 'Arquiteto de Software', true),
-    ('Ana Souza', 'ana.souza@email.com', 'Scrum Master', true),
-    ('Rodrigo Santos', 'rodrigo.santos@email.com', 'Product Owner', true);
+    ('Maria Silva', 'maria.silva@email.com', 'Engenheira de Software', true),
+    ('João Oliveira', 'joao.oliveira@email.com', 'Analista de Qualidade', true),
+    ('Carla Pereira', 'carla.pereira@email.com', 'Gerente de Projetos', true),
+    ('Ricardo Souza', 'ricardo.souza@email.com', 'Desenvolvedor Frontend', true),
+    ('Fernanda Santos', 'fernanda.santos@email.com', 'Product Owner', true);
 
 INSERT INTO Sprint (name, startDate, endDate, goal) VALUES
-    ('Sprint 1', '2023-01-01', '2023-01-14', 'Concluir Recursos Principais'),
+    ('Sprint 1', '2023-01-01', '2023-01-14', 'Concluir Desenvolvimento de Recursos Principais'),
     ('Sprint 2', '2023-01-15', '2023-01-28', 'Implementar Funcionalidades Adicionais'),
-    ('Sprint 3', '2023-02-01', '2023-02-14', 'Melhorias de Desempenho'),
-    ('Sprint 4', '2023-02-15', '2023-02-28', 'Testes e Correções');
+    ('Sprint 3', '2023-02-01', '2023-02-14', 'Realizar Testes e Correções'),
+    ('Sprint 4', '2023-02-15', '2023-02-28', 'Preparar para Lançamento');
 
 INSERT INTO Squad (sprint_id) VALUES
     (1),
     (2),
     (3),
     (4);
--- Adicione mais inserções de dados conforme necessário
+
+INSERT INTO Daily (date, description) VALUES
+    ('2023-01-01', 'Reunião de planejamento da Sprint 1'),
+    ('2023-01-02', 'Desenvolvimento da interface de usuário'),
+    ('2023-01-03', 'Revisão de código e resolução de bugs'),
+    ('2023-01-04', 'Testes de integração e aceitação de usuário');
+
+INSERT INTO Task (title, description, dueDate, completed, available, daily_id) VALUES
+    ('Implementar Login', 'Implementar página de login com autenticação', '2023-01-01', true, true, 1),
+    ('Desenvolver API REST', 'Construir endpoints RESTful para interação com o frontend', '2023-01-02', true, true, 2),
+    ('Testar Funcionalidades', 'Realizar testes de unidade e integração', '2023-01-03', false, true, 3),
+    ('Corrigir Bugs', 'Identificar e corrigir problemas no código', '2023-01-04', false, true, 4);
 
 -- Fim da migration

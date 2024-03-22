@@ -1,6 +1,8 @@
 package org.equipe.controllers;
 
 import org.equipe.models.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
@@ -11,6 +13,9 @@ import java.util.List;
 
 @Path("/api/v1")
 public class ServiceController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ServiceController.class);
+
 
     // Operações relacionadas a Sprints
 
@@ -85,10 +90,9 @@ public class ServiceController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response criarParticipante(Participante participante) {
-        participante.persist();
+        participante.persistAndFlush();
         return Response.status(Response.Status.CREATED).build();
     }
+}
 
     // Adicione operações adicionais conforme necessário
-
-}
