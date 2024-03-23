@@ -52,24 +52,6 @@ public class ServiceController {
     }
 
     // Operações relacionadas a Participantes
-
-    @GET
-    @Path("/participantes")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getParticipantes() {
-        List<Participante> participantes = Participante.listAll();
-        return Response.ok(participantes).build();
-    }
-
-    @POST
-    @Path("/participantes")
-    @Transactional
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response criarParticipante(Participante participante) {
-        participante.persistAndFlush();
-        return Response.status(Response.Status.CREATED).build();
-    }
 }
 
 // Adicione operações adicionais conforme necessário

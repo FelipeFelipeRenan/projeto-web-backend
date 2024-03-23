@@ -16,7 +16,7 @@ import jakarta.ws.rs.core.Response;
 
 import java.util.List;
 
-@Path("/task")
+@Path("/api/v1")
 public class TaskController {
 
     // Operações relacionadas a Tasks
