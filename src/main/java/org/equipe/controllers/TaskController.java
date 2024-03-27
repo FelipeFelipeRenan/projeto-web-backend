@@ -17,22 +17,31 @@ import jakarta.ws.rs.core.Response;
 import java.util.List;
 
 @Path("/api/v1")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class TaskController {
 
     // Operações relacionadas a Tasks
 
     @GET
     @Path("/tasks")
-    @Produces(MediaType.APPLICATION_JSON)
     public Response getTasks() {
         List<Task> tasks = Task.listAll();
         return Response.ok(tasks).build();
     }
 
+    @GET
+    @Path("/task/{id}")
+    public Response getTaskByID(@PathParam("id") Long id){
+        Task task = Task.findById(id);
+        if (task != null) {
+            return Response.ok(task).build();
+        }
+        return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
     @POST
     @Path("/tasks")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     @Transactional
     public Response criarTask(Task task) {
         task.persist();
@@ -41,7 +50,6 @@ public class TaskController {
 
     @DELETE
     @Path("/tasks/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
     @Transactional
     public Response deletarTask(@PathParam("id") Long id){
         boolean deleted = Task.deleteById(id);
@@ -55,8 +63,6 @@ public class TaskController {
 
     @PATCH
     @Path("/tasks/{id}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     @Transactional
     public Response atualizarDisponibilidadeTask(@PathParam("id") Long id){
         Task taskExistente = Task.findById(id);
