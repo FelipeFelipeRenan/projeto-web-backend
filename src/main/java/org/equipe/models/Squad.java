@@ -17,20 +17,18 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
 public class Squad extends PanacheEntityBase {
 
-        @Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String nome;
+    private String descricao;
     @ManyToOne
     private Sprint sprint;
 
     @JsonBackReference
     @ManyToMany
-    @JoinTable(
-        name = "squad_participante",
-        joinColumns = @JoinColumn(name = "squad_id"),
-        inverseJoinColumns = @JoinColumn(name = "participante_id")
-    )
+    @JoinTable(name = "squad_participante", joinColumns = @JoinColumn(name = "squad_id"), inverseJoinColumns = @JoinColumn(name = "participante_id"))
     private List<Participante> participantes;
 
     // getters e setters
@@ -50,4 +48,22 @@ public class Squad extends PanacheEntityBase {
     public void setParticipantes(List<Participante> participantes) {
         this.participantes = participantes;
     }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    
 }
