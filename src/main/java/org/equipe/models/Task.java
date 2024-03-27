@@ -78,4 +78,9 @@ public class Task extends PanacheEntityBase {
     public void setDaily(Daily daily) {
         this.daily = daily;
     }
+
+    public Long getId() {
+        return id;
+    }
+
 }

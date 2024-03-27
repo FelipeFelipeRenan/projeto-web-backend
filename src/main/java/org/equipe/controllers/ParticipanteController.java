@@ -1,21 +1,14 @@
 package org.equipe.controllers;
 
-import org.equipe.models.*;
+import org.equipe.dtos.ParticipanteDTO;
+import org.equipe.models.Participante;
 
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.DELETE;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.PATCH;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.PUT;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Path("/api/v1/")
 @Produces(MediaType.APPLICATION_JSON)
@@ -24,61 +17,45 @@ public class ParticipanteController {
 
     @GET
     @Path("/participantes")
-    public Response getParticipantes() {
+    public List<ParticipanteDTO> getParticipantes() {
         List<Participante> participantes = Participante.listAll();
-        return Response.ok(participantes).build();
+        return participantes.stream()
+                .map(ParticipanteDTO::fromParticipante) // Corrigido para utilizar fromParticipante
+                .collect(Collectors.toList());
     }
 
     @GET
-    @Path("/{id}")
+    @Path("/participantes/{id}")
     public Response getParticipanteById(@PathParam("id") Long id) {
         Participante participante = Participante.findById(id);
         if (participante != null) {
-            return Response.ok(participante).build();
+            ParticipanteDTO participanteDTO = ParticipanteDTO.fromParticipante(participante); // Corrigido para utilizar fromParticipante
+            return Response.ok(participanteDTO).build();
         } else {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
     }
+
 
     @POST
     @Path("/participantes")
     @Transactional
-    public Response createParticipante(Participante participante) {
+    public Response createParticipante(ParticipanteDTO participanteDTO) {
+        Participante participante = new Participante(participanteDTO.getNome(), participanteDTO.getEmail(), participanteDTO.getCargo(), participanteDTO.isAtivo());
         participante.persistAndFlush();
         return Response.status(Response.Status.CREATED).build();
     }
 
-    @PATCH
-    @Path("/participantes/{id}/adicionar-tarefa/{taskId}")
-    @Transactional
-    public Response addTask(@PathParam("id") Long participanteId, @PathParam("taskId") Long taskId) {
-        Participante participante = Participante.findById(participanteId);
-        if (participante != null) {
-            Task task = Task.findById(taskId);
-            if (task != null && !task.isAvailable()) {
-                participante.getTasks().add(task);
-                task.setAvailable(false);
-                task.persistAndFlush();
-                participante.persistAndFlush();
-                return Response.ok().build();
-            } else {
-                return Response.status(Response.Status.NOT_FOUND).build();
-            }
-        } else {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
-    }
-
     @PUT
-    @Path("/{id}")
+    @Path("/participantes/{id}")
     @Transactional
-    public Response updateParticipante(@PathParam("id") Long id, Participante participanteAtualizado) {
+    public Response updateParticipante(@PathParam("id") Long id, ParticipanteDTO participanteDTO) {
         Participante participante = Participante.findById(id);
         if (participante != null) {
-            participante.setNome(participanteAtualizado.getNome());
-            participante.setEmail(participanteAtualizado.getEmail());
-            participante.setCargo(participanteAtualizado.getCargo());
-            participante.setAtivo(participanteAtualizado.isAtivo());
+            participante.setNome(participanteDTO.getNome());
+            participante.setEmail(participanteDTO.getEmail());
+            participante.setCargo(participanteDTO.getCargo());
+            participante.setAtivo(participanteDTO.isAtivo());
             participante.persist();
             return Response.ok().build();
         } else {
@@ -87,7 +64,7 @@ public class ParticipanteController {
     }
 
     @DELETE
-    @Path("/{id}")
+    @Path("/participantes/{id}")
     @Transactional
     public Response deleteParticipante(@PathParam("id") Long id) {
         Participante participante = Participante.findById(id);
@@ -98,5 +75,4 @@ public class ParticipanteController {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
     }
-
 }

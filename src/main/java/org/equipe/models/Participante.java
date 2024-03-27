@@ -46,6 +46,14 @@ public class Participante extends PanacheEntityBase {
     @Fetch(FetchMode.JOIN)
     private List<Task> tasks;
 
+    public Participante(String nome, String email, String cargo, boolean ativo) {
+        this.nome = nome;
+        this.email = email;
+        this.cargo = cargo;
+        this.ativo = ativo;
+    }
+    public Participante(){}
+
     // getters e setters
 
     public Long getId() {

@@ -65,5 +65,9 @@ public class Squad extends PanacheEntityBase {
         this.descricao = descricao;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     
 }
