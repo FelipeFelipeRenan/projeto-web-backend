@@ -10,13 +10,14 @@ import jakarta.ws.rs.core.Response;
 import java.util.List;
 
 @Path("/api/v1")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class SprintController {
 
     // Operações relacionadas a Sprints
 
     @GET
     @Path("/sprints")
-    @Produces(MediaType.APPLICATION_JSON)
     public Response getSprints() {
         List<Sprint> sprints = Sprint.listAll();
         return Response.ok(sprints).build();
@@ -24,8 +25,6 @@ public class SprintController {
 
     @POST
     @Path("/sprints")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     @Transactional
     public Response criarSprint(Sprint sprint) {
         sprint.persist();
