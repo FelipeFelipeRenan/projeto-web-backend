@@ -73,4 +73,8 @@ public class Sprint extends PanacheEntityBase {
     public void setParticipantes(List<Participante> participantes) {
         this.participantes = participantes;
     }
+
+    public Long getId() {
+        return id;
+    }
 }
