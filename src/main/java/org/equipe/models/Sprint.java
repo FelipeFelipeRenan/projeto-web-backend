@@ -1,13 +1,12 @@
 package org.equipe.models;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -24,13 +23,8 @@ public class Sprint extends PanacheEntityBase {
     private LocalDate endDate;
     private String goal;
 
-    @ManyToMany
-    @JoinTable(
-        name = "sprint_participante",
-        joinColumns = @JoinColumn(name = "sprint_id"),
-        inverseJoinColumns = @JoinColumn(name = "participante_id")
-    )
-    private List<Participante> participantes;
+    @OneToMany(mappedBy = "sprint")
+    private List<Squad> squads;
 
     // Outros campos e relacionamentos
 
@@ -66,12 +60,12 @@ public class Sprint extends PanacheEntityBase {
         this.goal = goal;
     }
 
-    public List<Participante> getParticipantes() {
-        return participantes;
+    public List<Squad> getSquads() {
+        return squads;
     }
 
-    public void setParticipantes(List<Participante> participantes) {
-        this.participantes = participantes;
+    public void setSquads(List<Squad> squads) {
+        this.squads = squads;
     }
 
     public Long getId() {

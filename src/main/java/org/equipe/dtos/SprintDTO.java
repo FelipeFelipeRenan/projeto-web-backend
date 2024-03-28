@@ -1,7 +1,7 @@
 package org.equipe.dtos;
 
 import org.equipe.models.Sprint;
-import org.equipe.models.Participante;
+import org.equipe.models.Squad;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -13,7 +13,7 @@ public class SprintDTO {
     private LocalDate startDate;
     private LocalDate endDate;
     private String goal;
-    private List<Long> participantesIds;
+    private List<Long> squadsIds; // Renomeado para refletir o relacionamento com Squad
 
     // Getters e setters
 
@@ -57,12 +57,12 @@ public class SprintDTO {
         this.goal = goal;
     }
 
-    public List<Long> getParticipantesIds() {
-        return participantesIds;
+    public List<Long> getSquadsIds() {
+        return squadsIds;
     }
 
-    public void setParticipantesIds(List<Long> participantesIds) {
-        this.participantesIds = participantesIds;
+    public void setSquadsIds(List<Long> squadsIds) {
+        this.squadsIds = squadsIds;
     }
 
     // Métodos de conversão
@@ -74,13 +74,13 @@ public class SprintDTO {
         sprintDTO.setStartDate(sprint.getStartDate());
         sprintDTO.setEndDate(sprint.getEndDate());
         sprintDTO.setGoal(sprint.getGoal());
-        sprintDTO.setParticipantesIds(getParticipantesIds(sprint.getParticipantes()));
+        sprintDTO.setSquadsIds(getSquadsIds(sprint.getSquads()));
         return sprintDTO;
     }
 
-    private static List<Long> getParticipantesIds(List<Participante> participantes) {
-        return participantes.stream()
-                .map(Participante::getId)
+    private static List<Long> getSquadsIds(List<Squad> squads) {
+        return squads.stream()
+                .map(Squad::getId)
                 .collect(Collectors.toList());
     }
 
@@ -90,7 +90,7 @@ public class SprintDTO {
         sprint.setStartDate(this.startDate);
         sprint.setEndDate(this.endDate);
         sprint.setGoal(this.goal);
-        // Note que aqui não estamos mapeando participantes diretamente para Sprint, pois não há um mapeamento bidirecional no DTO
+        // Não estamos mapeando squads diretamente para Sprint aqui, pois não há um mapeamento bidirecional no DTO
         return sprint;
     }
 }

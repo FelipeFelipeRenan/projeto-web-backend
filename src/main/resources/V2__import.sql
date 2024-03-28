@@ -52,18 +52,11 @@ CREATE TABLE IF NOT EXISTS participante_task (
     CONSTRAINT fk_participante_task_task FOREIGN KEY (task_id) REFERENCES Task(id)
 );
 
-CREATE TABLE IF NOT EXISTS sprint_participante (
+CREATE TABLE IF NOT EXISTS sprint_squad (
     sprint_id BIGINT NOT NULL,
-    participante_id BIGINT NOT NULL,
-    CONSTRAINT fk_sprint_participante_sprint FOREIGN KEY (sprint_id) REFERENCES Sprint(id),
-    CONSTRAINT fk_sprint_participante_participante FOREIGN KEY (participante_id) REFERENCES Participante(id)
-);
-
-CREATE TABLE IF NOT EXISTS squad_participante (
     squad_id BIGINT NOT NULL,
-    participante_id BIGINT NOT NULL,
-    CONSTRAINT fk_squad_participante_squad FOREIGN KEY (squad_id) REFERENCES Squad(id),
-    CONSTRAINT fk_squad_participante_participante FOREIGN KEY (participante_id) REFERENCES Participante(id)
+    CONSTRAINT fk_sprint_squad_sprint FOREIGN KEY (sprint_id) REFERENCES Sprint(id),
+    CONSTRAINT fk_sprint_squad_squad FOREIGN KEY (squad_id) REFERENCES Squad(id)
 );
 
 -- Inserção de dados fictícios (apenas se as tabelas estiverem criadas)
@@ -72,7 +65,9 @@ INSERT INTO Participante (nome, email, cargo, ativo) VALUES
     ('João Oliveira', 'joao.oliveira@email.com', 'Analista de Qualidade', true),
     ('Carla Pereira', 'carla.pereira@email.com', 'Gerente de Projetos', true),
     ('Ricardo Souza', 'ricardo.souza@email.com', 'Desenvolvedor Frontend', true),
-    ('Fernanda Santos', 'fernanda.santos@email.com', 'Product Owner', true);
+    ('Fernanda Santos', 'fernanda.santos@email.com', 'Product Owner', true),
+    ('Paulo Mendes', 'paulo.mendes@email.com', 'Desenvolvedor Backend', true),
+    ('Juliana Costa', 'juliana.costa@email.com', 'Scrum Master', true);
 
 INSERT INTO Sprint (name, startDate, endDate, goal) VALUES
     ('Sprint 1', '2023-01-01', '2023-01-14', 'Concluir Desenvolvimento de Recursos Principais'),
@@ -82,7 +77,9 @@ INSERT INTO Sprint (name, startDate, endDate, goal) VALUES
 
 INSERT INTO Squad (sprint_id) VALUES
     (1),
+    (1),
     (2),
+    (3),
     (3),
     (4);
 
@@ -97,5 +94,13 @@ INSERT INTO Task (title, description, dueDate, completed, available, daily_id) V
     ('Desenvolver API REST', 'Construir endpoints RESTful para interação com o frontend', '2023-01-02', true, true, 2),
     ('Testar Funcionalidades', 'Realizar testes de unidade e integração', '2023-01-03', false, true, 3),
     ('Corrigir Bugs', 'Identificar e corrigir problemas no código', '2023-01-04', false, true, 4);
+
+INSERT INTO sprint_squad (sprint_id, squad_id) VALUES
+    (1, 1),
+    (1, 2),
+    (2, 3),
+    (3, 4),
+    (3, 5),
+    (4, 6);
 
 -- Fim da migration
