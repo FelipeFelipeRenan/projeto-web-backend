@@ -1,79 +1,83 @@
 package org.equipe.controllers;
 
 import org.equipe.models.Task;
+import org.equipe.dtos.TaskDTO;
 
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.DELETE;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.PATCH;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Path("/api/v1")
-@Consumes(MediaType.APPLICATION_JSON)
+@Path("/api/v1/")
 @Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class TaskController {
-
-    // Operações relacionadas a Tasks
 
     @GET
     @Path("/tasks")
-    public Response getTasks() {
+    public List<TaskDTO> getTasks() {
         List<Task> tasks = Task.listAll();
-        return Response.ok(tasks).build();
+        return tasks.stream()
+                .map(TaskDTO::fromTask)
+                .collect(Collectors.toList());
     }
 
     @GET
-    @Path("/task/{id}")
-    public Response getTaskByID(@PathParam("id") Long id){
+    @Path("/tasks/{id}")
+    public Response getTaskById(@PathParam("id") Long id) {
         Task task = Task.findById(id);
         if (task != null) {
-            return Response.ok(task).build();
+            TaskDTO taskDTO = TaskDTO.fromTask(task);
+            return Response.ok(taskDTO).build();
+        } else {
+            return Response.status(Response.Status.NOT_FOUND).build();
         }
-        return Response.status(Response.Status.NOT_FOUND).build();
     }
 
     @POST
     @Path("/tasks")
     @Transactional
-    public Response criarTask(Task task) {
-        task.persist();
+    public Response createTask(TaskDTO taskDTO) {
+        Task task = new Task();
+        task.setTitle(taskDTO.getTitle());
+        task.setDescription(taskDTO.getDescription());
+        task.setDueDate(taskDTO.getDueDate());
+        task.setCompleted(taskDTO.isCompleted());
+        task.setAvailable(taskDTO.isAvailable());
+        task.persistAndFlush();
         return Response.status(Response.Status.CREATED).build();
+    }
+
+    @PUT
+    @Path("/tasks/{id}")
+    @Transactional
+    public Response updateTask(@PathParam("id") Long id, TaskDTO taskDTO) {
+        Task task = Task.findById(id);
+        if (task != null) {
+            task.setTitle(taskDTO.getTitle());
+            task.setDescription(taskDTO.getDescription());
+            task.setDueDate(taskDTO.getDueDate());
+            task.setCompleted(taskDTO.isCompleted());
+            task.setAvailable(taskDTO.isAvailable());
+            task.persist();
+            return Response.ok().build();
+        } else {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
     }
 
     @DELETE
     @Path("/tasks/{id}")
     @Transactional
-    public Response deletarTask(@PathParam("id") Long id){
-        boolean deleted = Task.deleteById(id);
-        if (deleted) {
-            return Response.status(Response.Status.OK).build();
+    public Response deleteTask(@PathParam("id") Long id) {
+        Task task = Task.findById(id);
+        if (task != null) {
+            task.delete();
+            return Response.ok().build();
         } else {
             return Response.status(Response.Status.NOT_FOUND).build();
-            
         }
     }
-
-    @PATCH
-    @Path("/tasks/{id}")
-    @Transactional
-    public Response atualizarDisponibilidadeTask(@PathParam("id") Long id){
-        Task taskExistente = Task.findById(id);
-
-        if (taskExistente != null) {
-            taskExistente.setAvailable(true);
-            taskExistente.persist();
-            return Response.ok(taskExistente).build();
-        } else {
-            return Response.status(Response.Status.NOT_FOUND).entity("Task não encontrada").build();
-        }
-    }
-    
 }

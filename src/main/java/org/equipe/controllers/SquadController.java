@@ -1,7 +1,6 @@
 package org.equipe.controllers;
 
-import java.util.List;
-
+import org.equipe.dtos.SquadDTO;
 import org.equipe.models.Participante;
 import org.equipe.models.Squad;
 
@@ -17,22 +16,26 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import java.util.List;
+import java.util.stream.Collectors;
 
-@Path("/squads")
+@Path("api/v1/squads")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class SquadController {
 
     @POST
     @Transactional
-    public Response criarSquad(Squad squad) {
+    public Response criarSquad(SquadDTO squadDTO) {
+        Squad squad = squadDTO.toSquad();
         squad.persist();
         return Response.status(Response.Status.CREATED).build();
     }
 
     @GET
-    public List<Squad> listarSquads() {
-        return Squad.listAll();
+    public List<SquadDTO> listarSquads() {
+        List<Squad> squads = Squad.listAll();
+        return squads.stream().map(SquadDTO::fromSquad).collect(Collectors.toList());
     }
 
     @GET
@@ -40,7 +43,8 @@ public class SquadController {
     public Response obterSquadPorId(@PathParam("id") Long id) {
         Squad squad = Squad.findById(id);
         if (squad != null) {
-            return Response.ok(squad).build();
+            SquadDTO squadDTO = SquadDTO.fromSquad(squad);
+            return Response.ok(squadDTO).build();
         } else {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
@@ -49,11 +53,11 @@ public class SquadController {
     @PUT
     @Path("/{id}")
     @Transactional
-    public Response atualizarSquad(@PathParam("id") Long id, Squad squadAtualizado) {
+    public Response atualizarSquad(@PathParam("id") Long id, SquadDTO squadDTOAtualizado) {
         Squad squad = Squad.findById(id);
         if (squad != null) {
-            squad.setNome(squadAtualizado.getNome());
-            squad.setDescricao(squadAtualizado.getDescricao());
+            squadDTOAtualizado.setId(id);
+            squad = squadDTOAtualizado.toSquad();
             squad.persist();
             return Response.ok().build();
         } else {
@@ -77,7 +81,8 @@ public class SquadController {
     @PATCH
     @Path("/{id}/adicionar-participante/{participanteId}")
     @Transactional
-    public Response adicionarParticipanteAoSquad(@PathParam("id") Long squadId, @PathParam("participanteId") Long participanteId) {
+    public Response adicionarParticipanteAoSquad(@PathParam("id") Long squadId,
+            @PathParam("participanteId") Long participanteId) {
         Squad squad = Squad.findById(squadId);
         if (squad != null) {
             Participante participante = Participante.findById(participanteId);
