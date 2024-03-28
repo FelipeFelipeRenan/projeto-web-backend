@@ -103,4 +103,20 @@ INSERT INTO sprint_squad (sprint_id, squad_id) VALUES
     (3, 5),
     (4, 6);
 
+-- Associação de participantes a squads
+INSERT INTO squad_participante (squad_id, participante_id) VALUES
+    (1, 1),
+    (1, 2),
+    (2, 3),
+    (3, 4),
+    (3, 5),
+    (4, 6);
+
+-- Associação de tasks a participantes
+INSERT INTO participante_task (participante_id, task_id) VALUES
+    (1, 1),
+    (2, 2),
+    (3, 3),
+    (4, 4);
+
 -- Fim da migration
