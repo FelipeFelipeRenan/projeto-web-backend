@@ -1,7 +1,6 @@
 package org.equipe.dtos;
 
 import org.equipe.models.Squad;
-import org.equipe.models.Sprint;
 import org.equipe.models.Participante;
 
 import java.util.ArrayList;
