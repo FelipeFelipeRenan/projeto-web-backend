@@ -11,7 +11,7 @@ public class TaskDTO {
     private String description;
     private LocalDate dueDate;
     private boolean completed;
-    private boolean available;
+    private String availability; // Alterado para String
     private Long dailyId;
 
     public static TaskDTO fromTask(Task task) {
@@ -21,11 +21,9 @@ public class TaskDTO {
         dto.setDescription(task.getDescription());
         dto.setDueDate(task.getDueDate());
         dto.setCompleted(task.isCompleted());
-        dto.setAvailable(task.isAvailable());
+        dto.setAvailability(task.getAvailability()); // Assuming getAvailability() returns the String availability
         return dto;
     }
-
-
 
     // getters e setters
 
@@ -69,12 +67,12 @@ public class TaskDTO {
         this.completed = completed;
     }
 
-    public boolean isAvailable() {
-        return available;
+    public String getAvailability() {
+        return availability;
     }
 
-    public void setAvailable(boolean available) {
-        this.available = available;
+    public void setAvailability(String availability) {
+        this.availability = availability;
     }
 
     public Long getDailyId() {

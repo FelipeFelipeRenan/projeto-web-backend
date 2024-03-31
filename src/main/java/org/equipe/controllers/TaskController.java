@@ -45,7 +45,7 @@ public class TaskController {
         task.setDescription(taskDTO.getDescription());
         task.setDueDate(taskDTO.getDueDate());
         task.setCompleted(taskDTO.isCompleted());
-        task.setAvailable(taskDTO.isAvailable());
+        task.setAvailability(taskDTO.getAvailability());
         task.persistAndFlush();
         return Response.status(Response.Status.CREATED).build();
     }
@@ -60,7 +60,7 @@ public class TaskController {
             task.setDescription(taskDTO.getDescription());
             task.setDueDate(taskDTO.getDueDate());
             task.setCompleted(taskDTO.isCompleted());
-            task.setAvailable(taskDTO.isAvailable());
+            task.setAvailability(taskDTO.getAvailability());
             task.persist();
             return Response.ok().build();
         } else {

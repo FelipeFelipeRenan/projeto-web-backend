@@ -22,7 +22,7 @@ public class Task extends PanacheEntityBase {
     private String description;
     private LocalDate dueDate;
     private boolean completed;
-    private boolean available;
+    private String availability; // Alterado para String para representar os estados Aberta, Fechada e Disponível
 
     @JsonManagedReference
     @ManyToOne
@@ -63,12 +63,12 @@ public class Task extends PanacheEntityBase {
         this.completed = completed;
     }
 
-    public boolean isAvailable() {
-        return available;
+    public String getAvailability() {
+        return availability;
     }
 
-    public void setAvailable(boolean available) {
-        this.available = available;
+    public void setAvailability(String availability) {
+        this.availability = availability;
     }
 
     public Daily getDaily() {
