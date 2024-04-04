@@ -14,6 +14,7 @@ public class ParticipanteDTO {
     private String email;
     private String cargo;
     private boolean ativo;
+    private String pwd;
     private List<Long> tasksIds;
     private List<Long> squadsIds;
 
@@ -51,6 +52,7 @@ public class ParticipanteDTO {
         participante.setEmail(this.email);
         participante.setCargo(this.cargo);
         participante.setAtivo(this.ativo);
+        participante.setPwd(this.pwd);
         return participante;
     }
 
@@ -111,4 +113,14 @@ public class ParticipanteDTO {
     public void setSquadsIds(List<Long> squadsIds) {
         this.squadsIds = squadsIds;
     }
+
+    public String getPwd() {
+        return pwd;
+    }
+
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
+    }
+
+    
 }

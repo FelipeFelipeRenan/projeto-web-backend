@@ -23,6 +23,7 @@ public class Task extends PanacheEntityBase {
     private LocalDate dueDate;
     private boolean completed;
     private String availability; // Alterado para String para representar os estados Aberta, Fechada e Disponível
+    private String priority;
 
     @JsonManagedReference
     @ManyToOne
@@ -82,5 +83,14 @@ public class Task extends PanacheEntityBase {
     public Long getId() {
         return id;
     }
+
+    public String getPriority() {
+        return priority;
+    }
+
+    public void setPriority(String priority) {
+        this.priority = priority;
+    } 
+    
 
 }

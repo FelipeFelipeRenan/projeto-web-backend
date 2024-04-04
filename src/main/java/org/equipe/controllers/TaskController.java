@@ -46,6 +46,7 @@ public class TaskController {
         task.setDueDate(taskDTO.getDueDate());
         task.setCompleted(taskDTO.isCompleted());
         task.setAvailability(taskDTO.getAvailability());
+        task.setPriority(taskDTO.getPriority());
         task.persistAndFlush();
         return Response.status(Response.Status.CREATED).build();
     }
@@ -61,6 +62,7 @@ public class TaskController {
             task.setDueDate(taskDTO.getDueDate());
             task.setCompleted(taskDTO.isCompleted());
             task.setAvailability(taskDTO.getAvailability());
+            task.setPriority(taskDTO.getPriority());
             task.persist();
             return Response.ok().build();
         } else {

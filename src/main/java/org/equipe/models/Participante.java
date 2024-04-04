@@ -20,6 +20,7 @@ public class Participante extends PanacheEntityBase {
     private String email;
     private String cargo;
     private boolean ativo;
+    private String pwd;
 
     @JsonManagedReference
     @ManyToMany(mappedBy = "participantes", fetch = FetchType.EAGER)
@@ -46,11 +47,12 @@ public class Participante extends PanacheEntityBase {
     @Fetch(FetchMode.JOIN)
     private List<Task> tasks;
 
-    public Participante(String nome, String email, String cargo, boolean ativo) {
+    public Participante(String nome, String email, String cargo, boolean ativo, String pwd) {
         this.nome = nome;
         this.email = email;
         this.cargo = cargo;
         this.ativo = ativo;
+        this.pwd = pwd;
     }
     public Participante(){}
 
@@ -127,4 +129,12 @@ public class Participante extends PanacheEntityBase {
     public static PanacheQuery<Participante> findAtivos() {
         return find("ativo", true);
     }
+    public String getPwd() {
+        return pwd;
+    }
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
+    }
+
+    
 }

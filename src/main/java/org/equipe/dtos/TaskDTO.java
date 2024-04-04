@@ -12,6 +12,7 @@ public class TaskDTO {
     private LocalDate dueDate;
     private boolean completed;
     private String availability; // Alterado para String
+    private String priority;
     private Long dailyId;
 
     public static TaskDTO fromTask(Task task) {
@@ -22,6 +23,7 @@ public class TaskDTO {
         dto.setDueDate(task.getDueDate());
         dto.setCompleted(task.isCompleted());
         dto.setAvailability(task.getAvailability()); // Assuming getAvailability() returns the String availability
+        dto.setPriority(task.getPriority());
         return dto;
     }
 
@@ -82,4 +84,13 @@ public class TaskDTO {
     public void setDailyId(Long dailyId) {
         this.dailyId = dailyId;
     }
+
+    public String getPriority() {
+        return priority;
+    }
+
+    public void setPriority(String priority) {
+        this.priority = priority;
+    }
+    
 }

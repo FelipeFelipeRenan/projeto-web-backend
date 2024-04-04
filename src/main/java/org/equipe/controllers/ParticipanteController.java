@@ -41,7 +41,7 @@ public class ParticipanteController {
     @Path("/participantes")
     @Transactional
     public Response createParticipante(ParticipanteDTO participanteDTO) {
-        Participante participante = new Participante(participanteDTO.getNome(), participanteDTO.getEmail(), participanteDTO.getCargo(), participanteDTO.isAtivo());
+        Participante participante = new Participante(participanteDTO.getNome(), participanteDTO.getEmail(), participanteDTO.getCargo(), participanteDTO.isAtivo(), participanteDTO.getPwd());
         participante.persistAndFlush();
         return Response.status(Response.Status.CREATED).build();
     }
