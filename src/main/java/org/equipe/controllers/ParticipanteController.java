@@ -75,4 +75,22 @@ public class ParticipanteController {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
     }
+
+    @GET
+    @Path("/participantes/{email}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response login(@PathParam("email") String email) {
+        List<Participante> participantes = Participante.listAll();
+        List<Participante> participanteEmailList = participantes.stream()
+                .filter(p -> p.getEmail().equals(email))
+                .collect(Collectors.toList());
+
+        if (participanteEmailList.isEmpty()) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        } else {
+            Participante participante = participanteEmailList.get(0);
+            ParticipanteDTO participanteDTO = ParticipanteDTO.fromParticipante(participante);
+            return Response.ok(participanteDTO).build();
+        }
+    }
 }
