@@ -9,11 +9,8 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.logging.Logger;
 
 @Path("/api/v1/")
 @Produces(MediaType.APPLICATION_JSON)
@@ -83,11 +80,11 @@ public class ParticipanteController {
     }
 
     @GET
-    @Path("/participantes/{email : .+}") // Usa ".+" para capturar todo o valor do parâmetro email
+    @Path("/participantes/login/{email : .+}") // Usa ".+" para capturar todo o valor do parâmetro email
     @Produces(MediaType.APPLICATION_JSON)
     public Response login(@PathParam("email") String email) {
         List<Participante> participantes = Participante.listAll();
-        String decodedEmail = URLDecoder.decode(email, StandardCharsets.UTF_8);
+        String decodedEmail = UtilsHelpers.decodeURLParameter(email);
         List<Participante> participanteEmailList = participantes.stream()
                 .filter(p -> p.getEmail().equals(decodedEmail))
                 .collect(Collectors.toList());
@@ -96,7 +93,7 @@ public class ParticipanteController {
             return Response.status(Response.Status.NOT_FOUND).build();
         } else {
             Participante participante = participanteEmailList.get(0);
-            ParticipanteDTO participanteDTO = ParticipanteDTO.fromParticipante(participante);
+            ParticipanteDTO participanteDTO = ParticipanteDTO.fromParticipanteWithPwd(participante);
             return Response.ok(participanteDTO).build();
         }
     }

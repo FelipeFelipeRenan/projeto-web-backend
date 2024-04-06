@@ -30,6 +30,19 @@ public class ParticipanteDTO {
         return dto;
     }
 
+    public static ParticipanteDTO fromParticipanteWithPwd(Participante participante){
+        ParticipanteDTO dto = new ParticipanteDTO();
+        dto.setId(participante.getId());
+        dto.setNome(participante.getNome());
+        dto.setEmail(participante.getEmail());
+        dto.setCargo(participante.getCargo());
+        dto.setAtivo(participante.isAtivo());
+        dto.setTasksIds(getTasksIds(participante.getTasks()));
+        dto.setSquadsIds(getSquadsIds(participante.getSquads()));
+        dto.setPwd(participante.getPwd());
+        return dto;
+    }
+
     private static List<Long> getTasksIds(List<Task> tasks) {
         List<Long> ids = new ArrayList<>();
         for (Task task : tasks) {
