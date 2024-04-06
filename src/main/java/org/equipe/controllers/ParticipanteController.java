@@ -2,13 +2,18 @@ package org.equipe.controllers;
 
 import org.equipe.dtos.ParticipanteDTO;
 import org.equipe.models.Participante;
+import org.equipe.utils.UtilsHelpers;
 
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.logging.Logger;
 
 @Path("/api/v1/")
 @Produces(MediaType.APPLICATION_JSON)
@@ -29,19 +34,20 @@ public class ParticipanteController {
     public Response getParticipanteById(@PathParam("id") Long id) {
         Participante participante = Participante.findById(id);
         if (participante != null) {
-            ParticipanteDTO participanteDTO = ParticipanteDTO.fromParticipante(participante); // Corrigido para utilizar fromParticipante
+            ParticipanteDTO participanteDTO = ParticipanteDTO.fromParticipante(participante); // Corrigido para utilizar
+                                                                                              // fromParticipante
             return Response.ok(participanteDTO).build();
         } else {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
     }
 
-
     @POST
     @Path("/participantes")
     @Transactional
     public Response createParticipante(ParticipanteDTO participanteDTO) {
-        Participante participante = new Participante(participanteDTO.getNome(), participanteDTO.getEmail(), participanteDTO.getCargo(), participanteDTO.isAtivo(), participanteDTO.getPwd());
+        Participante participante = new Participante(participanteDTO.getNome(), participanteDTO.getEmail(),
+                participanteDTO.getCargo(), participanteDTO.isAtivo(), participanteDTO.getPwd());
         participante.persistAndFlush();
         return Response.status(Response.Status.CREATED).build();
     }
@@ -77,14 +83,15 @@ public class ParticipanteController {
     }
 
     @GET
-    @Path("/participantes/{email}")
+    @Path("/participantes/{email : .+}") // Usa ".+" para capturar todo o valor do parâmetro email
     @Produces(MediaType.APPLICATION_JSON)
     public Response login(@PathParam("email") String email) {
         List<Participante> participantes = Participante.listAll();
+        String decodedEmail = URLDecoder.decode(email, StandardCharsets.UTF_8);
         List<Participante> participanteEmailList = participantes.stream()
-                .filter(p -> p.getEmail().equals(email))
+                .filter(p -> p.getEmail().equals(decodedEmail))
                 .collect(Collectors.toList());
-
+    
         if (participanteEmailList.isEmpty()) {
             return Response.status(Response.Status.NOT_FOUND).build();
         } else {
@@ -93,4 +100,5 @@ public class ParticipanteController {
             return Response.ok(participanteDTO).build();
         }
     }
+    
 }
