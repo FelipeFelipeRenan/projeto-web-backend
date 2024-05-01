@@ -97,6 +97,10 @@
       <version>4.0.1</version>
       <scope>provided</scope>
   </dependency>
+  <dependency>
+    <groupId>io.quarkus</groupId>
+    <artifactId>quarkus-smallrye-jwt</artifactId>
+  </dependency>
   </dependencies>
   <build>
     <plugins>

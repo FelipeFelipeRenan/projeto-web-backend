@@ -126,6 +126,10 @@ public class Participante extends PanacheEntityBase {
         return find("upper(nome)", nome.toUpperCase()).list();
     }
 
+    public static Participante findByUsername(String username){
+        return find("upper(nome)", );
+    }
+
     public static PanacheQuery<Participante> findAtivos() {
         return find("ativo", true);
     }
